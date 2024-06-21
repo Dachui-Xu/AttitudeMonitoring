@@ -1,0 +1,174 @@
+@startuml
+class com.example.attitudemonitoring.handler.MultiLineChartHandler {
+-  handlers
+-  sensors
++ void addHandler(LineChartHandler)
++ void startAll()
++ void stopAll()
++ void pauseAll()
++ void resumeAll()
++ List<LineChartHandler> getHandlers()
++ void clearAll()
++ void resetAll()
+}
+
+
+class com.example.attitudemonitoring.service.BluetoothService$ConnectThread {
+- BluetoothSocket? socket
+- ByteArray mmBuffer
++ void run()
+- void manageConnectedSocket(BluetoothSocket?)
++ void write(String)
++ void cancel()
+}
+
+
+class com.example.attitudemonitoring.service.BluetoothService {
+- BluetoothManager bluetoothManager
+- BluetoothAdapter? bluetoothAdapter
+- ConnectThread? connectThread
+- Handler handler
++ IBinder? onBind(Intent?)
++ Int onStartCommand(Intent?,Int,Int)
+- Boolean checkBluetoothPermissions()
+- void connectToDevice(BluetoothDevice)
++ void onDestroy()
+}
+
+
+class com.example.attitudemonitoring.util.CsvFileWriter {
++ File writeSensorDataToCsv(Context,List<Sensor>,String)
+}
+
+class com.example.attitudemonitoring.handler.LineChartHandler {
+- LineDataSet dataSet
+-  scope
+-  isPaused
+- Job? job
+- void addEntry()
++ void startUpdatingData()
++ void stopUpdatingData()
++ void pauseUpdatingData()
++ void resumeUpdatingData()
++ void clearData()
++ void resetData()
+}
+
+
+class MultipleLineChartsViewModel {
+-  multiLineChartHandler
++  isRunning
++ List<LineChartHandler> getHandlers()
++ void startAll()
++ void stopAll()
++ void pauseAll()
++ void resumeAll()
++ void clearAll()
++ void resetAll()
++ File saveSensorData()
++ void shareSensorData()
+- void shareFile(Context,File)
+}
+
+
+class com.example.attitudemonitoring.bean.SensorData {
+}
+class com.example.attitudemonitoring.bean.Sensor {
+-  sensorDataList
++  isCollecting
+- Long? startTime
++ void addSensorData(Int)
++ List<SensorData> getSensorData()
++ String getName()
++ void generateRandomSensorValue()
++ void clearSensorData()
+}
+
+
+class com.example.attitudemonitoring.ui.MainActivity {
+-  bluetoothType
+- BluetoothClient bluetoothClient
+-  deviceName
+-  serviceList
+-  receiveCharacteristicList
+-  sendCharacteristicList
+-  readCharacteristicList
+- Service? service
+- Characteristic? receiveCharacteristic
+- Characteristic? sendCharacteristic
+- Characteristic? readCharacteristic
+- String readDataStr
+-  receivePackets
+-  mtu
+-  showChangeMtuDialog
+-  logoutList
+-  dataHistory
+- Boolean readFlag
+-  scrollToBottom
+-  showScanDialog
+-  scanning
+-  scanDeviceList
+-  appTitle
++ void initData()
++ void Content()
++ void ChoosePreview()
+- void ServiceChoose(Modifier)
++ void GreetingPreview()
+- void RealtimeLogout(Modifier)
++ void DataReaderScreen(Modifier)
++ void ReadPreview()
+- void readData((Boolean, String) -> Unit)
+- void startScanDevice()
+- void stopScanDevice()
+- void connectDevice(Device)
+- void supportedServices()
+- void assignService(Service?)
+- void receiveData()
+- void sendData(ByteArray)
+- void readData()
++ void onDestroy()
+}
+
+
+class com.example.attitudemonitoring.viewModel.ViewModelFactory {
++ T create(Class<T>)
+}
+
+class com.example.attitudemonitoring.util.TimeAxisValueFormatter {
+-  dateFormat
++ String getFormattedValue(Float)
+}
+
+
+abstract class com.example.attitudemonitoring.ui.ComposeBaseActivity {
+-  showLoading
+-  loadingCancelable
+-  snackBarState
++ void onCreate(Bundle?)
+# void handleIntent(Intent)
+# void initData()
+# void Content()
++ void showLoading(Boolean)
++ void hideLoading()
++ void showSnackBar(String,void,String?,void,Boolean,void,SnackbarDuration)
++ void null()
++ void showToast(String)
++ void onSaveInstanceState(Bundle)
++ void onRestoreInstanceState(Bundle)
++ void onDestroy()
+}
+
+
+class com.example.attitudemonitoring.bean.LogoutInfo {
+}
+
+
+com.example.attitudemonitoring.service.BluetoothService +.. com.example.attitudemonitoring.service.BluetoothService$ConnectThread
+com.example.attitudemonitoring.service.Thread <|-- com.example.attitudemonitoring.service.BluetoothService$ConnectThread
+android.app.Service <|-- com.example.attitudemonitoring.service.BluetoothService
+androidx.lifecycle.ViewModel <|-- MultipleLineChartsViewModel
+com.example.attitudemonitoring.ui.ComposeBaseActivity <|-- com.example.attitudemonitoring.ui.MainActivity
+com.example.attitudemonitoring.viewModel.Factory <|.. com.example.attitudemonitoring.viewModel.ViewModelFactory
+com.github.mikephil.charting.formatter.ValueFormatter <|-- com.example.attitudemonitoring.util.TimeAxisValueFormatter
+androidx.activity.ComponentActivity <|-- com.example.attitudemonitoring.ui.ComposeBaseActivity
+@enduml
