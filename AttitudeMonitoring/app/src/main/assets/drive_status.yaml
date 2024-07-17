@@ -1,0 +1,44 @@
+normal:
+  sensor1:
+    min: 0
+    max: 1699
+down:
+  sensor1:
+    min: 1886
+    max: 2010
+  sensor2:
+    min: 1861
+    max: 1975
+  sensor3:
+    min: 1892
+    max: 1975
+  sensor4:
+    min: 1861
+    max: 1943
+left:
+  sensor1:
+    min: 1937
+    max: 2134
+  sensor2:
+    min: 1892
+    max: 2089
+  sensor3:
+    min: 1899
+    max: 2034
+  sensor4:
+    min: 1823
+    max: 1892
+right:
+  sensor1:
+    min: 1905
+    max: 2111
+  sensor2:
+    min: 1810
+    max: 2004
+  sensor3:
+    min: 1905
+    max: 2064
+  sensor4:
+    min: 1816
+    max: 1846
+

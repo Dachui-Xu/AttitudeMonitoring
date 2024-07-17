@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 /**
  * 动态折线图：
@@ -40,7 +41,7 @@ class LineChartHandler(val lineChart: LineChart,
             setPinchZoom(true)
             axisLeft.apply {
                 axisMinimum = 0f
-                axisMaximum = 1500f
+                axisMaximum = 2200f
                 granularity = 1f
                 setLabelCount(3, true)
             }
@@ -62,24 +63,34 @@ class LineChartHandler(val lineChart: LineChart,
         synchronized(sensor) {
             val sensorDataList = sensor.getSensorData()
             dataSet.clear()
+            var minY = 1500f
+            var maxY = 1700f
             for ((index, sensorData) in sensorDataList.withIndex()) {
-                dataSet.addEntry(Entry(index.toFloat(), sensorData.value.toFloat()))
+                val value = sensorData.value.toFloat()
+                dataSet.addEntry(Entry(index.toFloat(), value))
+                if (value < minY) minY = value
+                if (value > maxY) maxY = value
             }
             lineChart.data.notifyDataChanged()
             lineChart.notifyDataSetChanged()
             lineChart.xAxis.axisMaximum = sensorDataList.size.toFloat() - 1
             lineChart.xAxis.axisMinimum = 0f
+            // Update Y axis range
+            lineChart.axisLeft.axisMinimum = minY - 1f  // adding some padding
+           lineChart.axisLeft.axisMaximum = maxY + 50f  // adding some padding
             lineChart.invalidate()
         }
     }
 
+
     fun startUpdatingData() {
+        job?.cancel()
         job = scope.launch {
             while (isActive) {
                 if (!isPaused) {
                     addEntry()
                 }
-                delay(5)
+                delay(20)
             }
         }
     }

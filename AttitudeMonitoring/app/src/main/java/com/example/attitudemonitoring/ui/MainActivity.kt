@@ -1,9 +1,9 @@
 package com.example.attitudemonitoring.ui
 
-
 import MultipleLineChartsViewModel
 import com.example.attitudemonitoring.bean.LogoutInfo
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,12 +51,14 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.attitudemonitoring.R
 import com.example.attitudemonitoring.bean.Sensor
 import com.example.attitudemonitoring.ui.theme.AttitudeMonitoringTheme
 import com.example.attitudemonitoring.ui.theme.ColorLogoutDebug
 import com.example.attitudemonitoring.ui.theme.ColorLogoutError
 import com.example.attitudemonitoring.ui.widgets.ChangeMtuDialog
+import com.example.attitudemonitoring.ui.widgets.DataReaderScreen
 import com.example.attitudemonitoring.ui.widgets.LineChartView
 import com.example.attitudemonitoring.ui.widgets.MultipleLineChartsView
 import com.example.attitudemonitoring.ui.widgets.ScanDeviceDialog
@@ -63,6 +66,8 @@ import com.example.attitudemonitoring.ui.widgets.ScanDeviceDialog
 import com.example.attitudemonitoring.ui.widgets.TopBar
 import com.example.attitudemonitoring.util.getVersionName
 import com.example.attitudemonitoring.util.toHex
+import com.example.attitudemonitoring.viewModel.SharedViewModel
+import com.example.attitudemonitoring.viewModel.ViewModelFactory
 import com.zhzc0x.bluetooth.BluetoothClient
 import com.zhzc0x.bluetooth.client.Characteristic
 import com.zhzc0x.bluetooth.client.ClientState
@@ -79,7 +84,7 @@ import java.util.Date
 
 class MainActivity : ComposeBaseActivity() {
 
-    private var bluetoothType by mutableStateOf(ClientType.BLE)
+    private var bluetoothType by mutableStateOf(ClientType.CLASSIC)
     private lateinit var bluetoothClient: BluetoothClient
     private var deviceName by mutableStateOf("")
     private val serviceList = ArrayList<Service>()
@@ -105,7 +110,6 @@ class MainActivity : ComposeBaseActivity() {
     private var scanDeviceList = mutableStateListOf<Device>()
     private var appTitle = ""
 
-
     override fun initData() {
         val logFlow = channelFlow{
             Timber.plant(object: Timber.Tree(){
@@ -129,24 +133,28 @@ class MainActivity : ComposeBaseActivity() {
                 scrollToBottom = !scrollToBottom
             }
         }
-        appTitle = "${getString(R.string.app_name)}v${getVersionName(this@MainActivity)}"
+        appTitle = "${getString(R.string.app_name)}v${getVersionName(this@MainActivity)} "
     }
 
     @ExperimentalMaterial3Api
     @Composable
     override fun Content() {
+        val context = LocalContext.current
+        val sharedViewModel: SharedViewModel by viewModels()
+        val viewModel: MultipleLineChartsViewModel = viewModel(factory = ViewModelFactory(context, sharedViewModel))
+
         Scaffold(Modifier.fillMaxSize(), topBar = {
             TopBar(title=appTitle, showBackButton = false)
         }){ paddingValues ->
             Column(Modifier.padding(start = 14.dp, top=paddingValues.calculateTopPadding(), end=14.dp)) {
                 Row(
                     Modifier
-                        .padding(top = 12.dp)
+                        .padding(top = 6.dp)
                         .height(40.dp), verticalAlignment = Alignment.CenterVertically) {
                     var expanded by remember {
                         mutableStateOf(false)
                     }
-                    Text(text = "蓝牙类型：$bluetoothType",
+                    Text(text = "BT Type：$bluetoothType",
                         Modifier
                             .clickable {
                                 expanded = true
@@ -181,13 +189,13 @@ class MainActivity : ComposeBaseActivity() {
                                 else  -> {}
                             }
                         }) {
-                            Text(text = "扫描", fontSize = 16.sp)
+                            Text(text = "Scan", fontSize = 16.sp)
                         }
                     } else {
                         Button(onClick = {
                             bluetoothClient.disconnect()
                         }) {
-                            Text(text = "断开", fontSize = 16.sp)
+                            Text(text = "Break", fontSize = 16.sp)
                         }
                     }
                     Spacer(modifier = Modifier.width(4.dp))
@@ -199,23 +207,18 @@ class MainActivity : ComposeBaseActivity() {
                 TabRow(selectedTabIndex, Modifier) {
                     Tab(selectedTabIndex == 0, onClick = {
                         selectedTabIndex = 0
-                    }, Modifier.height(40.dp),  text = {
-                        Text(text = "蓝牙服务", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                    }, Modifier.height(40.dp), text = {
+                        Text(text = "Logging", fontSize = 12.sp, fontWeight = FontWeight.Medium)
                     }, unselectedContentColor = Color.Gray)
                     Tab(selectedTabIndex == 1, onClick = {
                         selectedTabIndex = 1
                     }, Modifier.height(40.dp), text = {
-                        Text(text = "实时日志", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        Text(text = "Dating", fontSize = 12.sp, fontWeight = FontWeight.Medium)
                     }, unselectedContentColor = Color.Gray)
                     Tab(selectedTabIndex == 2, onClick = {
                         selectedTabIndex = 2
                     }, Modifier.height(40.dp), text = {
-                        Text(text = "实时数据", fontSize = 12.sp, fontWeight = FontWeight.Medium)
-                    }, unselectedContentColor = Color.Gray)
-                    Tab(selectedTabIndex == 3, onClick = {
-                        selectedTabIndex = 3
-                    }, Modifier.height(40.dp), text = {
-                        Text(text = "绘图", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        Text(text = "Monitor", fontSize = 12.sp, fontWeight = FontWeight.Medium)
                     }, unselectedContentColor = Color.Gray)
                 }
                 val tabPageModifier = remember {
@@ -224,14 +227,23 @@ class MainActivity : ComposeBaseActivity() {
                         .padding(top = 4.dp)
                         .weight(1f) }
                 when(selectedTabIndex){
-                    0 -> ServiceChoose(tabPageModifier)
-                    1 -> RealtimeLogout(tabPageModifier)
-                    2 -> DataReaderScreen(tabPageModifier)
-                    3 -> {
-                        MultipleLineChartsView()
+                   // 0 -> ServiceChoose(tabPageModifier)
+                    0 -> RealtimeLogout(tabPageModifier)
+                    1 -> DataReaderScreen(tabPageModifier,
+                                            viewModel(factory = ViewModelFactory(
+                                                context,
+                                                sharedViewModel,
+                                                bluetoothType,
+                                                bluetoothClient,
+                                                readCharacteristic
+                                                ))
+                                            )
+//                    2 -> DataReaderScreen(tabPageModifier)
+                    2 -> {
+                        MultipleLineChartsView(viewModel)
                     }
                 }
-                if(deviceName.isNotEmpty()){
+                if(deviceName.isNotEmpty() && selectedTabIndex!= 2){
                     Row(
                         Modifier
                             .fillMaxWidth()
@@ -257,7 +269,7 @@ class MainActivity : ComposeBaseActivity() {
                                 sendError = true
                             }
                         }) {
-                            Text(text = "发送")
+                            Text(text = "send")
                         }
                     }
                 }
@@ -280,13 +292,7 @@ class MainActivity : ComposeBaseActivity() {
             })
         }
     }
-    @Preview(showBackground = true)
-    @Composable
-    fun ChoosePreview() {
-        AttitudeMonitoringTheme {
-            ServiceChoose(Modifier.fillMaxWidth())
-        }
-    }
+
 
     @Composable
     private fun ServiceChoose(modifier: Modifier) = Column(modifier){
@@ -468,14 +474,7 @@ class MainActivity : ComposeBaseActivity() {
         }
     }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AttitudeMonitoringTheme {
-        Content()
-    }
-}
+
 
     @Composable
     private fun RealtimeLogout(modifier: Modifier){

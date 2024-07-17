@@ -1,11 +1,57 @@
 @startuml
-class com.example.attitudemonitoring.ExampleUnitTest {
-+ void addition_isCorrect()
+enum com.example.attitudemonitoring.bean.SensorConditionLoader$StatusFile {
 }
+class com.example.attitudemonitoring.bean.SensorConditionLoader$Condition {
+}
+class com.example.attitudemonitoring.bean.SensorConditionLoader$SensorRange {
+}
+class com.example.attitudemonitoring.bean.SensorConditionLoader {
++  sensorKeys
+- Map<String, Condition> conditions
+- String lastStatus
+-  sensorWindows
++ void loadConditionsFromYaml(StatusFile)
+- Pair<Int, Int> getSensorExtremes(String)
++ void updateSensorData(String,Int)
++ String determineStatus()
++ String switchMode()
+- Boolean isWithinRange(Int,SensorRange?)
+}
+
 
 class com.example.attitudemonitoring.util.CsvFileWriter {
 + File writeSensorDataToCsv(Context,List<Sensor>,String)
 }
+
+class com.example.attitudemonitoring.util.TimedVibrationManager {
+- Job? vibrationJob
+- Long? remainingTimeMillis
+- Long intervalMillis
++ void startTimedVibration(Long)
++ void stopTimedVibration()
++ void pauseTimedVibration()
++ void resumeTimedVibration()
++ void judgeVibrator(MultipleLineChartsViewModel.Mode,String)
+- void performVibration(Vibrator)
+- Vibrator getVibrator()
+- Long calculateVibrationDuration(MultipleLineChartsViewModel.Mode,String)
+}
+
+
+class com.example.attitudemonitoring.util.TimerManager {
+- Job? timerJob
+- Long startTimeMillis
+- Long elapsedTimeMillis
+- Long pausedTimeMillis
+- Boolean isPaused
++ void start()
++ void pause()
++ void resume()
++ void stop()
+- String formatElapsedTime(Long)
++ void reset()
+}
+
 
 class com.example.attitudemonitoring.handler.LineChartHandler {
 - LineDataSet dataSet
@@ -22,20 +68,23 @@ class com.example.attitudemonitoring.handler.LineChartHandler {
 }
 
 
-class SensorData {
+class com.example.attitudemonitoring.bean.SensorData {
 }
-class com.example.attitudemonitoring.util.TimeAxisValueFormatter {
--  dateFormat
-+ String getFormattedValue(Float)
+class com.example.attitudemonitoring.bean.RealTimeClassifier {
+- String lastStatus
+-  sensorWindows
+- Interpreter tflite
++  sensorKeys
+- void loadModel()
+- Pair<Float, Float> getSensorExtremes(String)
++ void updateSensorData(String,Int)
++ String determineStatus()
+- String processOutput(FloatArray)
 }
 
 
 class com.example.attitudemonitoring.bean.LogoutInfo {
 }
-class com.example.attitudemonitoring.ExampleInstrumentedTest {
-+ void useAppContext()
-}
-
 class com.example.attitudemonitoring.handler.MultiLineChartHandler {
 -  handlers
 -  sensors
@@ -73,9 +122,26 @@ class com.example.attitudemonitoring.service.BluetoothService {
 }
 
 
+enum MultipleLineChartsViewModel$Mode {
+}
 class MultipleLineChartsViewModel {
 -  multiLineChartHandler
 +  isRunning
++  conditionLoader
++  realTimeClassifier
++  timedVibrationManager
++  vibrateRunning
++ MutableMap<String, Int> sensorValues
++  status
++  _lastStatus
+- Job? judgeJob
+-  _currentMode
++  currentMode
+-  timerManager
+-  _elapsedTime
++ String duration
++ void null()
++ void switchMode()
 + List<LineChartHandler> getHandlers()
 + void startAll()
 + void stopAll()
@@ -86,18 +152,31 @@ class MultipleLineChartsViewModel {
 + File saveSensorData()
 + void shareSensorData()
 - void shareFile(Context,File)
+- void startJudgeStatus()
+- void stopJudgeStatus()
 }
 
 
+interface com.example.attitudemonitoring.bean.Animation {
++ Int resourceId
+}
+
+enum com.example.attitudemonitoring.bean.WorkAnimation {
+}
+enum com.example.attitudemonitoring.bean.DriveAnimation {
+}
 class com.example.attitudemonitoring.bean.Sensor {
 -  sensorDataList
 +  isCollecting
 - Long? startTime
++ Int newValue
++ Job? job
 + void addSensorData(Int)
 + List<SensorData> getSensorData()
 + String getName()
-+ void generateRandomSensorValue()
 + void clearSensorData()
++ void generateRandomSensorValue()
++ void cancel()
 }
 
 
@@ -127,9 +206,7 @@ class com.example.attitudemonitoring.ui.MainActivity {
 -  appTitle
 + void initData()
 + void Content()
-+ void ChoosePreview()
 - void ServiceChoose(Modifier)
-+ void GreetingPreview()
 - void RealtimeLogout(Modifier)
 + void DataReaderScreen(Modifier)
 + void ReadPreview()
@@ -146,9 +223,24 @@ class com.example.attitudemonitoring.ui.MainActivity {
 }
 
 
-class com.example.attitudemonitoring.viewModel.ViewModelFactory {
-+ T create(Class<T>)
+class DataReaderViewModel {
 }
+enum Option {
++  MODEL
++  YAML
+}
+
+class com.example.attitudemonitoring.viewModel.ViewModelFactory {
+}
+class com.example.attitudemonitoring.viewModel.SharedViewModel {
++  readFlag
++  sensors
++  optionModel
++  sensorsValue
++ void parseSharedData(String)
+- void updateSensors()
+}
+
 
 abstract class com.example.attitudemonitoring.ui.ComposeBaseActivity {
 -  showLoading
@@ -171,12 +263,17 @@ abstract class com.example.attitudemonitoring.ui.ComposeBaseActivity {
 
 
 
-com.github.mikephil.charting.formatter.ValueFormatter <|-- com.example.attitudemonitoring.util.TimeAxisValueFormatter
+com.example.attitudemonitoring.bean.SensorConditionLoader +.. com.example.attitudemonitoring.bean.SensorConditionLoader$StatusFile
+com.example.attitudemonitoring.bean.SensorConditionLoader +.. com.example.attitudemonitoring.bean.SensorConditionLoader$Condition
+com.example.attitudemonitoring.bean.SensorConditionLoader +.. com.example.attitudemonitoring.bean.SensorConditionLoader$SensorRange
 com.example.attitudemonitoring.service.BluetoothService +.. com.example.attitudemonitoring.service.BluetoothService$ConnectThread
 com.example.attitudemonitoring.service.Thread <|-- com.example.attitudemonitoring.service.BluetoothService$ConnectThread
 android.app.Service <|-- com.example.attitudemonitoring.service.BluetoothService
+MultipleLineChartsViewModel +.. MultipleLineChartsViewModel$Mode
 androidx.lifecycle.ViewModel <|-- MultipleLineChartsViewModel
+com.example.attitudemonitoring.bean.Animation <|.. com.example.attitudemonitoring.bean.WorkAnimation
+com.example.attitudemonitoring.bean.Animation <|.. com.example.attitudemonitoring.bean.DriveAnimation
 com.example.attitudemonitoring.ui.ComposeBaseActivity <|-- com.example.attitudemonitoring.ui.MainActivity
-com.example.attitudemonitoring.viewModel.Factory <|.. com.example.attitudemonitoring.viewModel.ViewModelFactory
+androidx.lifecycle.ViewModel <|-- com.example.attitudemonitoring.viewModel.SharedViewModel
 androidx.activity.ComponentActivity <|-- com.example.attitudemonitoring.ui.ComposeBaseActivity
 @enduml

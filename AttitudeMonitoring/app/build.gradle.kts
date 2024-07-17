@@ -12,7 +12,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -53,8 +53,16 @@ android {
 dependencies {
     implementation(libs.mpandroidchart)  // 图表库
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-alpha05")
-    implementation("com.zhzc0x.bluetooth:client-android:1.0.3")
+    //implementation("com.zhzc0x.bluetooth:client-android:1.0.3")
+    implementation("com.zhzc0x.bluetooth:client-android:1.0.4-SNAPSHOT")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation ("com.airbnb.android:lottie-compose:5.2.0")
+    implementation ("com.google.code.gson:gson:2.8.6")
+    implementation ("org.yaml:snakeyaml:1.29") // 版本号根据实际情况可能有所不同
+    implementation ("org.tensorflow:tensorflow-lite:2.4.0")
+    implementation ("org.tensorflow:tensorflow-lite-gpu:2.4.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.1.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

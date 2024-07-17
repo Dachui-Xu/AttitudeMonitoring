@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1391ea83-9914-4328-be0d-44c8c3930024" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/assets/drive_status.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/assets/sensor_conditions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/assets/work_status.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/bean/Animation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/bean/SensorConditionLoader.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/widgets/AnimationView.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/widgets/DataReaderScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/util/TimedVibrationManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/util/TimerManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/DataReaderViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/SharedViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/bigdown.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/cdown.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/cleft.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/cright.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/down.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/drive.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/left.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/normal.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/right.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/res/raw/rise.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scientificProject/multiPlotSensor.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scientificProject/plotSensor.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scientificProject/plotkmean.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scientificProject/test.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scientificProject/uniqueRange.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/bean/Sensor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/bean/Sensor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/handler/LineChartHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/handler/LineChartHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/widgets/LineChartsView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/ui/widgets/LineChartsView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/MultipleLineChartsViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/MultipleLineChartsViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/ViewModelFactory.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/app/src/main/java/com/example/attitudemonitoring/viewModel/ViewModelFactory.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AttitudeMonitoring/test.puml" beforeDir="false" afterPath="$PROJECT_DIR$/../AttitudeMonitoring/test.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2ij8sn9UwMWqJ5a6gVkvIDor7RW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "E:/Project/Neck_Health/csvAnalysis",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PY-241.15989.155" />
+        <option value="bundled-python-sdk-babbdf50b680-7c6932dee5e4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.15989.155" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1391ea83-9914-4328-be0d-44c8c3930024" name="Changes" comment="" />
+      <created>1719992834877</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719992834877</updated>
+      <workItem from="1719992835942" duration="21000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
