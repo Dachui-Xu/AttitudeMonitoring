@@ -30,7 +30,7 @@ class DataReaderViewModel (
     var isCollecting by mutableStateOf(false)
     val dataHistory = mutableStateListOf<String>()
     private var dataReadingJob: Job? = null
-    private val _selectedOption = MutableStateFlow<Option>(Option.MODEL)
+    private val _selectedOption = MutableStateFlow<Option>(Option.YAML)
     val selectedOption: StateFlow<Option> = _selectedOption
 
     fun selectOption(option: Option) {

@@ -45,18 +45,18 @@ fun OptionSelector(viewModel: DataReaderViewModel) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             OptionButton(
-                text = "Model",
+                text = "CNN",
                 isSelected = selectedOption == Option.MODEL,
                 onClick = { viewModel.selectOption(Option.MODEL)
                             viewModel.optionModel()
-                Timber.d("Model selected")}
+                Timber.d("CNN selected")}
             )
             OptionButton(
-                text = "Range",
+                text = "Threshold",
                 isSelected = selectedOption == Option.YAML,
                 onClick = { viewModel.selectOption(Option.YAML)
                             viewModel.optionRange()
-                Timber.d("Range selected")}
+                Timber.d("Threshold selected")}
             )
         }
     }

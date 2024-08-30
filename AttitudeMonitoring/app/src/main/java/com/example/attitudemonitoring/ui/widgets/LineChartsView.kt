@@ -83,14 +83,14 @@ fun MultipleLineChartsView(viewModel: MultipleLineChartsViewModel) {
             viewModel.switchMode()
         }
         Text(
-            text = "${viewModel.currentMode.modeName} Status: ${viewModel.status}, ${viewModel.duration}",
+            text = "${viewModel.currentMode.modeName} Model: ${viewModel.status}, ${viewModel.duration}",
             modifier = Modifier
                 .wrapContentSize(Alignment.Center)
                 .padding(6.dp)
         )
 
 
-        LazyColumn(modifier = Modifier.weight(5f)) {
+        LazyColumn(modifier = Modifier.weight(4f)) {
             items(lineChartHandlers) { handler ->
                 LineChartView(handler, Modifier.fillMaxWidth().height(90.dp).weight(1f))
             }

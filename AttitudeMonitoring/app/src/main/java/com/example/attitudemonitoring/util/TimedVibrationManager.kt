@@ -1,11 +1,18 @@
 package com.example.attitudemonitoring.util
 
 import android.content.Context
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import com.example.attitudemonitoring.R
@@ -28,9 +35,28 @@ class TimedVibrationManager(private val context: Context) {
             while (isActive) {
                 delay(intervalMillis)
                 performVibration(vibrator)
+                showCustomToast("⏰ Please Note Your Neck Posture")
             }
         }
     }
+
+    private fun showCustomToast(message: String) {
+        val inflater = LayoutInflater.from(context)
+        val layout: View = inflater.inflate(R.layout.custom_toast, null)
+
+        // Customize the text and icon here
+        val text: TextView = layout.findViewById(R.id.toast_text)
+        text.text = message
+        text.setTextColor(Color.RED)  // Change text color
+
+
+        val toast = Toast(context)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
+        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 245)  // Set position
+        toast.show()
+    }
+
 
     fun stopTimedVibration() {
         vibrationJob?.cancel()
@@ -90,8 +116,8 @@ class TimedVibrationManager(private val context: Context) {
         return when (mode) {
             MultipleLineChartsViewModel.Mode.WORK -> when (status) {
                 "normal" -> 0L
-                "down" -> 10000L
-                "large down" -> 2000L
+                "down" -> 120000L
+                "large down" -> 60000L
                 "left" -> 5000L
                 "right" -> 5000L
                 "up" -> 4000L

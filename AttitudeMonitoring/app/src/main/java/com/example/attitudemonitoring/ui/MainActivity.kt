@@ -3,6 +3,7 @@ package com.example.attitudemonitoring.ui
 import MultipleLineChartsViewModel
 import com.example.attitudemonitoring.bean.LogoutInfo
 import android.util.Log
+import android.util.Size
 import androidx.activity.viewModels
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -143,9 +144,10 @@ class MainActivity : ComposeBaseActivity() {
         val sharedViewModel: SharedViewModel by viewModels()
         val viewModel: MultipleLineChartsViewModel = viewModel(factory = ViewModelFactory(context, sharedViewModel))
 
-        Scaffold(Modifier.fillMaxSize(), topBar = {
-            TopBar(title=appTitle, showBackButton = false)
-        }){ paddingValues ->
+        Scaffold(Modifier.fillMaxSize()
+//            , topBar = {
+//            TopBar(title=appTitle, showBackButton = false) }
+        ){ paddingValues ->
             Column(Modifier.padding(start = 14.dp, top=paddingValues.calculateTopPadding(), end=14.dp)) {
                 Row(
                     Modifier

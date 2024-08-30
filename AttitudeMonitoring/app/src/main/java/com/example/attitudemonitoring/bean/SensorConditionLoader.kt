@@ -1,6 +1,7 @@
 package com.example.attitudemonitoring.bean
 
 import android.content.Context
+import android.widget.Toast
 import com.google.gson.Gson
 import org.yaml.snakeyaml.Yaml
 import java.io.IOException
@@ -61,7 +62,7 @@ class SensorConditionLoader(private val context: Context) {
 
     fun updateSensorData(sensorKey: String, newValue: Int) {
         val window = sensorWindows.getOrPut(sensorKey) { LinkedList() }
-        if (window.size == 76) {
+        if (window.size == 30) {
             window.removeFirst()
         }
         window.addLast(newValue)
@@ -76,26 +77,42 @@ class SensorConditionLoader(private val context: Context) {
         val (minValue3, maxValue3) = getSensorExtremes(sensorKeys[2])
         val (minValue4, maxValue4) = getSensorExtremes(sensorKeys[3])
 
-        if(minValue4<= 2200 || minValue2 <=2200){
-            return "normal"
+//
+//        if((maxValue4 in (2450..2600)) || (maxValue3 in (2450..2600))){
+//            return lastStatus
+//        }
+//        if(maxValue2 >= 3000){
+//            return "large down"
+//        }
+        if(lastStatus == "large down"|| lastStatus == "down" || lastStatus =="right"){
+            if(minValue3<=2450){
+//                sensorWindows.clear()
+                lastStatus = "normal"
+                return lastStatus
+            }
         }
-        if((maxValue4 in (2200..2400)) && (maxValue4 in (2200..2400))){
-            return lastStatus
-        }
-        if(maxValue2 >= 3000){
-            return "large down"
-        }
+
+
+
+
+
+//            sensorWindows.clear()
+//            lastStatus = "down"
+//            return lastStatus
+//        }
+
 
 
         for ((status, condition) in conditions) {
             if (
                 isWithinRange(maxValue1, condition.sensor1) &&
-                isWithinRange(maxValue2, condition.sensor2) &&
+                isWithinRange(minValue2, condition.sensor2) &&
                 isWithinRange(maxValue3, condition.sensor3) &&
                 isWithinRange(maxValue4, condition.sensor4)
             ) {
                 lastStatus = status
-                break
+
+
             }
         }
         return lastStatus

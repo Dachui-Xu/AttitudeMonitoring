@@ -54,7 +54,7 @@ dependencies {
     implementation(libs.mpandroidchart)  // 图表库
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-alpha05")
     //implementation("com.zhzc0x.bluetooth:client-android:1.0.3")
-    implementation("com.zhzc0x.bluetooth:client-android:1.0.4-SNAPSHOT")
+    implementation("com.zhzc0x.bluetooth:client-android:1.0.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation ("com.airbnb.android:lottie-compose:5.2.0")
     implementation ("com.google.code.gson:gson:2.8.6")
